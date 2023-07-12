@@ -1,39 +1,31 @@
-from flask import Flask, render_template, request
-import openai
+# libraries ---------------------------
 
+from flask import Flask, redirect, render_template, request, url_for
+from dotenv import load_dotenv
+import os
+import openai
+from mod import ChatSession
+
+# app init ---------------------------
 
 app = Flask(__name__)
 
-# Set up OpenAI API credentials
-openai.api_key = 'API Key'
+# openai setup ---------------------------
 
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+cs = ChatSession()
 
-# Define the default route to return the index.html file
-@app.route("/")
+# main ---------------------------
+
+@app.route("/", methods=("GET", "POST"))
 def index():
-    return render_template("index.html")
-
-# Define the /api route to handle POST requests
-@app.route("/api", methods=["POST"])
-def api():
-    # Get the message from the POST request
-    message = request.json.get("message")
-    # Send the message to OpenAI's API and receive the response
-    
-    
-    completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": message}
-    ]
-    )
-    if completion.choices[0].message!=None:
-        return completion.choices[0].message
-
-    else :
-        return 'Failed to Generate response!'
-    
+    if request.method == "POST":
+        cs.add("user", request.form["query"])
+        cs.submit()
+        return redirect(url_for('index'))
+    return render_template("index.html", messages=cs.messages, n=len(cs.messages))
 
 if __name__=='__main__':
-    app.run()
+    app.run(debug=True)
 
