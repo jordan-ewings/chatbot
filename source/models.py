@@ -71,9 +71,5 @@ class ChatSession:
                 content.append(output["content"])
         
         asst = ''.join([m for m in content])
+        self.add("assistant", asst)
 
-        self.messages.append({
-            "role": "assistant",
-            "content": asst,
-            "content_web": content_web(asst)
-        })

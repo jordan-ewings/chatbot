@@ -18,10 +18,14 @@ cs = ChatSession()
 
 # main ---------------------------
 
-@app.route("/", methods=("GET", "POST"))
+@app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         cs.add("user", request.form["query"])
         cs.submit()
         return redirect(url_for('index'))
     return render_template("index.html", messages=cs.messages, n=len(cs.messages))
+
+@app.route("/api", methods=["GET"])
+def api():
+    return cs.messages
