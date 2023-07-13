@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import openai
 from .models import ChatSession
+import json
 
 # app init ---------------------------
 
@@ -28,4 +29,4 @@ def index():
 
 @app.route("/api", methods=["GET"])
 def api():
-    return cs.messages
+    return render_template("api.html", messages=cs.messages, n=len(cs.messages))

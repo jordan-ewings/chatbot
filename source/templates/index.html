@@ -1,84 +1,28 @@
-<!DOCTYPE html>
-<html data-bs-theme="dark">
+{% extends 'base.html' %}
 
-  <head>
-    <title>Chat App</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script
-      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script
-      src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/lib/languages/python.min.js"></script>
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
-      integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
-  </head>
+{% block content %}
+<div class="container chat-box mt-3" style="height: 60vh; overflow: auto;">
 
-  <body>
-    <nav class="navbar navbar-expand-md bg-dark-subtle" data-bs-theme="dark">
-      <div class="container-fluid">
-        <a class="navbar-brand text-primary-emphasis fw-bold lh-lg" href="#">CHATBOT</a>
-        <div class="collapse navbar-collapse" id="navbarColor01">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">ChatCompletion
-                <span class="visually-hidden">(current)</span>
-              </a>
-            </li>
+  {% if messages %}
+  {% for i in range(n) %}
+  {% if messages[i]['role'] == 'user' %}
+  <div class="mt-3 p-3 card border-dark-subtle bg-dark-subtle">
+    {{messages[i]['content_web']}}
+  </div>
+  {% else %}
+  <div class="mt-3 p-3 card border-primary bg-dark-subtle">
+    {{messages[i]['content_web']}}
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+</div>
+<div class="container form-group mt-5" style="position: fixed; bottom: 5%;">
+  <form action="/" method="post" style="text-align: center;">
+    <textarea class="form-control my-4" rows="3" placeholder="Type your message here" id="query"
+      name="query"></textarea>
+    <input class="btn btn-dark" type="submit" value="Submit" id="send-btn" name="send-btn" />
+  </form>
+</div>
 
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="container mt-5">
-      <div class="container chat-box mt-3"
-        style="height: 600px; overflow: auto;">
-
-        {% if messages %}
-        {% for i in range(n) %}
-        {% if messages[i]['role'] == 'user' %}
-        <div class="mt-3 p-3 card border-dark-subtle bg-dark-subtle">
-          {{messages[i]['content_web']}}
-        </div>
-        {% else %}
-        <div class="mt-3 p-3 card border-primary bg-dark-subtle">
-          {{messages[i]['content_web']}}
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-      </div>
-      <div class="container form-group mt-5"
-        style="position: fixed; bottom: 5%;">
-        <form action="/" method="post" style="text-align: center;">
-          <textarea class="form-control my-4" rows="3"
-            placeholder="Type your message here" id="query"
-            name="query"></textarea>
-          <input class="btn btn-dark" type="submit" value="Submit" id="send-btn"
-            name="send-btn" />
-        </form>
-      </div>
-    </div>
-    <script>
-    setInterval(highlightAll, 1000);
-
-    function highlightAll() {
-      document.querySelectorAll("pre code").forEach(block => {
-        hljs.highlightBlock(block);
-      });
-    }
-  </script>
-  </body>
-
-</html>
+{% endblock %}
