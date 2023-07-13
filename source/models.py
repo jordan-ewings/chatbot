@@ -2,7 +2,6 @@ import openai
 import re
 from markupsafe import Markup
 
-
 ###########################################################
 
 
