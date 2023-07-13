@@ -1,6 +1,15 @@
 import openai
+import re
+from markupsafe import Markup
+
 
 ###########################################################
+
+
+def content_web(content):
+        htmlcode = re.sub("\n\n```[A-Za-z0-9]+\n([^`]+)```\n\n", r"</p><br><pre><code>\1</code></pre><br><p>", content)
+        out = """<p>{0}</p>""".format(htmlcode)
+        return Markup(out)
 
 class ChatSession:
     def __init__(self,
@@ -23,14 +32,23 @@ class ChatSession:
     def add(self, role, content):
         self.messages.append({
             "role": role,
-            "content": content
+            "content": content,
+            "content_web": content_web(content)
         })
+    
 
     def submit(self):
 
+        messages_use = []
+        for i in self.messages:
+            messages_use.append({
+                "role": i.get("role"),
+                "content": i.get("content")
+            })
+
         resp = openai.ChatCompletion.create(
             model=self.model,
-            messages=self.messages,
+            messages=messages_use,
             n=self.n,
             max_tokens=self.max_tokens,
             temperature=self.temperature,
@@ -56,7 +74,6 @@ class ChatSession:
 
         self.messages.append({
             "role": "assistant",
-            "content": asst
+            "content": asst,
+            "content_web": content_web(asst)
         })
-
-        return asst

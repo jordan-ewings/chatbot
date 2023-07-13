@@ -1,14 +1,14 @@
 # libraries ---------------------------
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for
 from dotenv import load_dotenv
 import os
 import openai
-from mod import ChatSession
+from .models import ChatSession
 
 # app init ---------------------------
 
-app = Flask(__name__)
+from source import app
 
 # openai setup ---------------------------
 
@@ -25,8 +25,3 @@ def index():
         cs.submit()
         return redirect(url_for('index'))
     return render_template("index.html", messages=cs.messages, n=len(cs.messages))
-
-if __name__=='__main__':
-    app.run(debug=True)
-
-# 
