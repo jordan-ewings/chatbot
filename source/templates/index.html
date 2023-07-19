@@ -6,12 +6,22 @@
   {% if messages %}
   {% for i in range(n) %}
   {% if messages[i]['role'] == 'user' %}
-  <div class="mt-3 p-3 card border-dark-subtle bg-dark-subtle">
-    {{messages[i]['content_web']}}
+  <div class="container d-inline-flex mt-3">
+    <div class="px-3 py-2">
+      <img src="{{ url_for('static', filename='images/user.jpg') }}" class="rounded" style="width: 2em; height: 2em;">
+    </div>
+    <div class="container px-3 pt-3 pb-1 card border-dark-subtle bg-dark-subtle">
+      {{messages[i]['content_web']}}
+    </div>
   </div>
   {% else %}
-  <div class="mt-3 p-3 card border-primary bg-dark-subtle">
-    {{messages[i]['content_web']}}
+  <div class="container d-inline-flex mt-3">
+    <div class="px-3 py-2">
+      <img src="{{ url_for('static', filename='images/gpt.jpg') }}" class="rounded" style="width: 2em; height: 2em;">
+    </div>
+    <div class="container px-3 pt-3 pb-1 card border-primary bg-dark-subtle">
+      {{messages[i]['content_web']}}
+    </div>
   </div>
   {% endif %}
   {% endfor %}

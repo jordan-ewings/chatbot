@@ -4,28 +4,10 @@ from markupsafe import Markup
 
 ###########################################################
 
-# content = "Certainly! Here's a simple Python function that generates a random number using the `random` module:\n```python\nimport random\n\ndef generate_random_number():\n    return random.randint(1, 100)\n```\nIn this example, the `random.randint()` function generates a random integer between 1 and 100 (you can adjust the range based on your needs). You can call `generate_random_number()` to get a random number."
-# content = "Certainly! Here's a Python function that generates a random number:\n\n```python\nimport random\n\ndef generate_random_number():\n    return random.randint(1, 100)\n```\n\nExplanation:\n- The `import random` statement allows us to use the functions provided by the built-in random module in Python.\n- The `generate_random_number` function is defined with no additional parameters.\n- The `random.randint(1, 100)` function call returns a random integer between 1 and 100 (inclusive). You can modify the range as per your requirements.\n\nUsage:\nYou can call the `generate_random_number()` function wherever you need to generate a random number. For example:\n\n```python\nrandom_number = generate_random_number()\nprint(random_number)\n```\n\nThis will print a random number between 1 and 100 each time the function is called."
-# clean = re.sub("\\n```(.*?)\\n```\\n", r"_CODEBLOCK_CBSTART_<pre><code>\1</code></pre>_CODEBLOCK_", content, flags=re.DOTALL)
-# clean_spl = clean.split("_CODEBLOCK_")
-# clean_spl2 = []
-# for i in clean_spl:
-#     if re.findall("^CBSTART_", i):
-#         j = re.sub("^CBSTART_", "", i)
-#     else:
-#         j = re.sub("\\n", "<br>", i)
-#     clean_spl2.append("<p>"+j+"</p>")
-
-
-# re.split('(\\n)```', content)
-
-# htmlcode = re.sub("\n```(.+)```\n", r"</p><br><pre><code>###\0</code></pre><br><p>", content)
-# re.finditer("```", content)
-
 
 def content_web(content):
-    # clean = re.sub("\\n```(.+?)\\n```\\n", r"_CODEBLOCK_CBSTART_<pre><code>\1</code></pre>_CODEBLOCK_", content, flags=re.DOTALL)
-    clean = re.sub("\\n```(.+?)\\n```\\n", r"_CODEBLOCK_CBSTART_\1_CODEBLOCK_", content, flags=re.DOTALL)
+    clean = content.replace("\r\n", "\n")
+    clean = re.sub("\\n```(.+?)\\n```\\n", r"_CODEBLOCK_CBSTART_\1_CODEBLOCK_", clean, flags=re.DOTALL)
     clean_spl = clean.split("_CODEBLOCK_")
     clean_spl2 = []
     for i in clean_spl:
@@ -37,6 +19,7 @@ def content_web(content):
         else:
             j = Markup.escape(i)
             j = re.sub("\\n", "<br>", j)
+            j = re.sub("`(.+?)`", r"<b>`\1`</b>", j)
             j = "<p>"+j+"</p>"
             j = Markup(j)
 
