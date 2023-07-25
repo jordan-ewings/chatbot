@@ -6,11 +6,11 @@
 {% for i in range(n) %}
 {% if messages[i]['role'] == 'user' %}
 <div class="mt-3 p-3 card border-dark-subtle bg-dark-subtle">
-  {{messages[i]}}
+	{{messages[i]}}
 </div>
 {% else %}
 <div class="mt-3 p-3 card border-primary bg-dark-subtle">
-  {{messages[i]}}
+	{{messages[i]}}
 </div>
 {% endif %}
 {% endfor %}

@@ -3,35 +3,35 @@
 {% block content %}
 
 <div class="container chat-box mt-3" style="height: 60vh; overflow: auto;">
-  {% if messages %}
-  {% for i in range(n) %}
-  {% if messages[i]['role'] == 'user' %}
-  <div class="container d-inline-flex mt-3">
-    <div class="px-3 py-2">
-      <img src="{{ url_for('static', filename='images/user.jpg') }}" class="rounded" style="width: 2em; height: 2em;">
-    </div>
-    <div class="container px-3 pt-3 pb-1 card border-dark-subtle bg-dark-subtle">
-      {{messages[i]['content_web']}}
-    </div>
-  </div>
-  {% else %}
-  <div class="container d-inline-flex mt-3">
-    <div class="px-3 py-2">
-      <img src="{{ url_for('static', filename='images/gpt.jpg') }}" class="rounded" style="width: 2em; height: 2em;">
-    </div>
-    <div class="container px-3 pt-3 pb-1 card border-primary bg-dark-subtle">
-      {{messages[i]['content_web']}}
-    </div>
-  </div>
-  {% endif %}
-  {% endfor %}
-  {% endif %}
+	{% if messages %}
+	{% for i in range(n) %}
+	{% if messages[i]['role'] == 'user' %}
+	<div class="container d-inline-flex mt-3">
+		<div class="px-3 py-2">
+			<img src="{{ url_for('static', filename='images/user.jpg') }}" class="rounded" style="width: 2em; height: 2em;">
+		</div>
+		<div class="container px-3 pt-3 pb-1 card border-dark-subtle bg-dark-subtle">
+			{{messages[i]['content_web']}}
+		</div>
+	</div>
+	{% else %}
+	<div class="container d-inline-flex mt-3">
+		<div class="px-3 py-2">
+			<img src="{{ url_for('static', filename='images/gpt.jpg') }}" class="rounded" style="width: 2em; height: 2em;">
+		</div>
+		<div class="container px-3 pt-3 pb-1 card border-primary bg-dark-subtle">
+			{{messages[i]['content_web']}}
+		</div>
+	</div>
+	{% endif %}
+	{% endfor %}
+	{% endif %}
 </div>
 <div class="container form-group mt-5" style="position: fixed; bottom: 5%;">
-  <form action="/" method="post" style="text-align: center;">
-    <textarea class="form-control my-4" rows="3" placeholder="Type your message here" id="query" name="query"></textarea>
-    <input class="btn btn-dark" type="submit" value="Submit" id="send-btn" name="send-btn">
-  </form>
+	<form action="/" method="post" style="text-align: center;">
+		<textarea class="form-control my-4" rows="3" placeholder="Type your message here" id="query" name="query"></textarea>
+		<input class="btn btn-dark" type="submit" value="Submit" id="send-btn" name="send-btn">
+	</form>
 </div>
 
 {% endblock %}
